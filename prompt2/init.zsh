@@ -26,3 +26,6 @@ else
   prompt "$prompt_argv[@]"
 fi
 unset prompt_argv
+
+# Fix compinit
+compinit

@@ -13,8 +13,20 @@ if (( ! $+commands[kubectl] )); then
   return 1
 fi
 
-# Load completion
-source <(kubectl completion zsh)
-
 # Load aliases
 source "${0:h}/alias.zsh"
+
+# Load completion
+_functions=${0:a:h}/functions
+fpath=($fpath $_functions)
+if [[ -d $_functions ]]; then
+  return 0
+fi
+
+mkdir -p $_functions
+
+if (( $+commands[kubectl] )); then
+  if [[ ! -f $_functions/_kubectl ]]; then
+    kubectl completion zsh > $_functions/_kubectl
+  fi
+fi
